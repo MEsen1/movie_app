@@ -1,0 +1,8 @@
+{
+  "api": {
+    "baseUrl": "https://api-staging.mobideli.co.uk",
+    "endpoints": {
+      "auth": "api/v1/admin/authenticate"
+    }
+  }
+}

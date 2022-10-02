@@ -1,8 +1,9 @@
 import axios from "axios";
+import config from "../config.json";
 
 export const movieSearch = async (search) => {
   try {
-    const data = await axios.get(
+    const { status } = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=1&include_adult=false`,
       {
         headers: {
@@ -10,21 +11,19 @@ export const movieSearch = async (search) => {
         },
       }
     );
-    if (data.status === 200) {
-      return data;
-    }
+    // if (data.status === 200) {
+    //   return status;
+    // }
   } catch (error) {
     console.log(error);
   }
 };
 
-export const authToken = async () => {
+export const authToken = async (username, password) => {
   try {
-    const data = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/authentication/token/new?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=ccc`
-    );
-    if (data.status === 200) {
-      return data.data;
+    const result = await axios.post(`${config.api.baseUrl}/${config.api.endpoints.auth}`, { username, password });
+    if (result.status === 200) {
+      return result.data;
     }
   } catch (error) {
     console.log(error);

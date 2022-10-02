@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userToken = localStorage.getItem("token") ? localStorage.getItem("token") : null;
-
 const initialState = {
-  userToken,
+  isLoggedIn: false,
+  token: undefined,
 };
 
 export const userSlice = createSlice({
@@ -11,16 +10,47 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logIn: (state, action) => {
-      state.userToken = action.payload;
-      localStorage.setItem("token", JSON.stringify(state.userToken));
+      state.isLoggedIn = true;
+      state.token = action.payload;
+      localStorage.setItem("token", JSON.stringify(state.token));
     },
     logOut: (state) => {
-      state.token = null;
+      state.isLoggedIn = false;
+      state.token = undefined;
       localStorage.removeItem("token");
     },
   },
 });
 
 export const { logIn, logOut } = userSlice.actions;
+
+export const isLoggedIn = () => {
+  return async (dispatch, getState) => {
+    const { user } = getState();
+
+    if (user.isLoggedIn === false) return false;
+
+    if (!user.token.token && !user.token) return false;
+
+    if (new Date(user.token.expires_at) > new Date()) return true;
+    else {
+      dispatch(logOut());
+      return false;
+    }
+  };
+};
+
+export const loadAuthToken = (dispatch, _) => {
+  let authTokenString = localStorage.getItem("user");
+
+  if (authTokenString) {
+    const authToken = JSON.parse(authTokenString);
+    dispatch(logIn(authToken));
+    return true;
+  } else {
+    dispatch(logOut());
+    return false;
+  }
+};
 
 export default userSlice.reducer;

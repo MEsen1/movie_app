@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
 import { Stack, Alert, Box } from "@mui/material";
+import { isLoggedIn } from "../features/user/userSlice";
 
 const ProtectedRoute = () => {
   const { userToken } = useSelector((state) => state.user);
-
   if (!userToken) {
     return (
       <Stack sx={{ width: "100%" }} spacing={2}>
@@ -15,7 +15,6 @@ const ProtectedRoute = () => {
       </Stack>
     );
   }
-
   return <Outlet />;
 };
 

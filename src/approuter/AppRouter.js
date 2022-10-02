@@ -10,6 +10,7 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route exact path="/login" element={<Login />}></Route>
+
         <Route element={<ProtectedRoute />}>
           <Route path="/details/:id" element={<Details />}></Route>
           <Route path="" element={<DashBoard />}></Route>
