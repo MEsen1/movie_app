@@ -11,12 +11,12 @@ const DashBoard = () => {
   const [post, setPost] = useState([]);
   const { userInput } = useSelector((state) => state.input);
 
-  // useEffect(() => {
-  //   movieSearch(userInput).then((data) => setPost(data.data.results));
+  useEffect(() => {
+    movieSearch(userInput).then((data) => setPost(data.data.results));
 
-  //   console.log(post);
-  //   console.log(post.length);
-  // }, [userInput]);
+    console.log(post);
+    console.log(post.length);
+  }, [userInput]);
 
   return (
     <>

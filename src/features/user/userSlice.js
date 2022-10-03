@@ -24,23 +24,25 @@ export const userSlice = createSlice({
 
 export const { logIn, logOut } = userSlice.actions;
 
-export const isLoggedIn = () => {
-  return async (dispatch, getState) => {
-    const { user } = getState();
+export const isLoggedIn = () => (dispatch, getState) => {
+  const { user } = getState();
 
-    if (user.isLoggedIn === false) return false;
+  if (user.isLoggedIn === false) return false;
 
-    if (!user.token.token && !user.token) return false;
+  // if (!user.token.token || !user.token) return false;
+  // console.log(!user.token);
+  // console.log(user.token);
+  // console.log(!user.token.token);
+  // console.log(user.token.token);
 
-    if (new Date(user.token.expires_at) > new Date()) return true;
-    else {
-      dispatch(logOut());
-      return false;
-    }
-  };
+  if (new Date(user.token.expiryDateTime) > new Date()) return true;
+  else {
+    dispatch(logOut());
+    return false;
+  }
 };
 
-export const loadAuthToken = (dispatch, _) => {
+export const loadAuthToken = () => (dispatch, _) => {
   let authTokenString = localStorage.getItem("user");
 
   if (authTokenString) {

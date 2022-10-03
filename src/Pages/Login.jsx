@@ -53,9 +53,11 @@ const Login = () => {
     console.log(`${value.name} == ${value.password}`);
     //console.log(data.token);
     console.log(data);
+    console.log(loggedIn);
 
     if (isSuccess) {
       dispatch(logIn(data.token));
+      console.log(loggedIn);
       navigate("/");
     } else {
       setAlert(message);

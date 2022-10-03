@@ -3,7 +3,7 @@ import config from "../config.json";
 
 export const movieSearch = async (search) => {
   try {
-    const { status } = await axios.get(
+    const result = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=1&include_adult=false`,
       {
         headers: {
@@ -11,9 +11,9 @@ export const movieSearch = async (search) => {
         },
       }
     );
-    // if (data.status === 200) {
-    //   return status;
-    // }
+    if (result.status === 200) {
+      return result;
+    }
   } catch (error) {
     console.log(error);
   }
